@@ -1,0 +1,27 @@
+{
+  "name": "twitch-mute-skip",
+  "version": "1.0.0",
+  "description": "skip muted VOD frames on Twitch",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "style": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "author": "rakiyoshi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rakiyoshi/twitch-mute-skip.git"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.158",
+    "copy-webpack-plugin": "^9.0.1",
+    "glob": "^7.1.6",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2 ",
+    "ts-jest": "^29.1.0",
+    "ts-loader": "^8.0.0",
+    "typescript": "^5.0.4"
+  }
+}
