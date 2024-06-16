@@ -21,7 +21,7 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2 ",
     "ts-jest": "^29.1.0",
-    "ts-loader": "^8.0.0",
+    "ts-loader": "^9.0.0",
     "typescript": "^5.0.4"
   }
 }
