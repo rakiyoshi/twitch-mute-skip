@@ -6,7 +6,7 @@
   "content_scripts": [
       {
           "matches": ["*://*.twitch.tv/*"],
-          "js": ["dist/js/content_script.js"]
+          "js": ["dist/content_script.js"]
       }
   ]
 }
