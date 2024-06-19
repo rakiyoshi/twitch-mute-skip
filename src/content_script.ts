@@ -70,6 +70,18 @@ function nextUnmutedTime(currentTime: number): number {
   return 0;
 }
 
+function hideMutedSegmentsAlert() {
+  const mutedSegmentsAlert = document.querySelector(".muted-segments-alert__scroll-wrapper")
+  if (!mutedSegmentsAlert) {
+    return
+  }
+  if (!mutedSegmentsAlert.getElementsByTagName("button").length) {
+    return
+  }
+  const button = mutedSegmentsAlert.getElementsByTagName("button")[0]
+  button.click()
+}
+
 function main() {
   const video: HTMLVideoElement | null = document.querySelector("video");
   if (!video) {
@@ -87,6 +99,9 @@ function main() {
       `twitch-mute-skip: mutedSections = ${JSON.stringify(mutedSections)}`
     );
   }
+
+  hideMutedSegmentsAlert()
+
   if (isMuted(currentTime)) {
     video.currentTime = nextUnmutedTime(currentTime);
   }
