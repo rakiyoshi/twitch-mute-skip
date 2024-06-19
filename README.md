@@ -6,6 +6,6 @@
 
 ## Installation
 
-1. `git clone https://github.com/rakiyoshi/twitch-mute-skip.git`
-1. open [chrome://extensions/](chrome://extensions/)
+1. `$ git clone https://github.com/rakiyoshi/twitch-mute-skip.git`
+1. open `chrome://extensions/`
 1. Drag and drop the cloned directory to browser
