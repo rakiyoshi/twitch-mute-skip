@@ -1,5 +1,3 @@
-let mutedSections: Section[] | undefined;
-
 type Section = {
   start: number;
   end: number;
@@ -25,7 +23,7 @@ function getMutedSection(duration: number): Section[] | undefined {
     }
     const start = (parseFloat(segment.style.left) * duration) / 100;
     const end = start + (parseFloat(segment.style.width) * duration) / 100;
-    if (!start || !end) {
+    if (isNaN(start) || isNaN(end) || !isFinite(start) || !isFinite(end)) {
       continue;
     }
     res.push({ start: start, end: end });
@@ -40,11 +38,8 @@ function getMutedSection(duration: number): Section[] | undefined {
   });
 }
 
-function isMuted(currentTime: number): boolean {
+function isMuted(currentTime: number, mutedSections: Section[]): boolean {
   const currentPosition = currentTime;
-  if (!mutedSections) {
-    return false;
-  }
   for (const section of mutedSections) {
     if (section.start <= currentPosition && currentPosition <= section.end) {
       console.log(
@@ -56,11 +51,11 @@ function isMuted(currentTime: number): boolean {
   return false;
 }
 
-function nextUnmutedTime(currentTime: number): number {
+function nextUnmutedTime(
+  currentTime: number,
+  mutedSections: Section[]
+): number {
   const currentPosition = currentTime;
-  if (!mutedSections) {
-    return 0;
-  }
   for (const section of mutedSections) {
     if (currentPosition < section.end) {
       console.log(`twitch-mute-skip: next position = ${section.end}`);
@@ -71,15 +66,17 @@ function nextUnmutedTime(currentTime: number): number {
 }
 
 function hideMutedSegmentsAlert() {
-  const mutedSegmentsAlert = document.querySelector(".muted-segments-alert__scroll-wrapper")
+  const mutedSegmentsAlert = document.querySelector(
+    ".muted-segments-alert__scroll-wrapper"
+  );
   if (!mutedSegmentsAlert) {
-    return
+    return;
   }
   if (!mutedSegmentsAlert.getElementsByTagName("button").length) {
-    return
+    return;
   }
-  const button = mutedSegmentsAlert.getElementsByTagName("button")[0]
-  button.click()
+  const button = mutedSegmentsAlert.getElementsByTagName("button")[0];
+  button.click();
 }
 
 function main() {
@@ -90,20 +87,15 @@ function main() {
 
   const currentTime = video.currentTime;
   const duration = video.duration;
+  const mutedSections = getMutedSection(duration);
   if (!mutedSections) {
-    mutedSections = getMutedSection(duration);
-    if (!mutedSections) {
-      return;
-    }
-    console.log(
-      `twitch-mute-skip: mutedSections = ${JSON.stringify(mutedSections)}`
-    );
+    return;
   }
 
-  hideMutedSegmentsAlert()
+  hideMutedSegmentsAlert();
 
-  if (isMuted(currentTime)) {
-    video.currentTime = nextUnmutedTime(currentTime);
+  if (isMuted(currentTime, mutedSections)) {
+    video.currentTime = nextUnmutedTime(currentTime, mutedSections);
   }
 }
 
